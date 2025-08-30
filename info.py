@@ -15,19 +15,19 @@ BIN_CHANNEL = int(environ.get("BIN_CHANNEL", '-1003042522134'))  # File storage 
 LOG_CHANNEL = int(environ.get("LOG_CHANNEL", '-1003042522134'))  # General log channel
 PREMIUM_LOGS = int(environ.get("PREMIUM_LOGS", '-1003042522134'))  # Premium user actions log
 VERIFIED_LOG = int(environ.get('VERIFIED_LOG', '-1003042522134'))  # Verified user actions log
-SUPPORT_GROUP = int(environ.get("SUPPORT_GROUP", "-1003042522134"))
+SUPPORT_GROUP = int(environ.get("SUPPORT_GROUP", "-1002413032052"))
 
 # add admin IDs 11111 2222 3333 and add auth channel IDs -100XXX -100XXX -100XXX
 ADMINS = list(map(int, environ.get('ADMINS', '8184060262').split()))  # List of admin user IDs
-AUTH_CHANNEL = list(map(int, environ.get("AUTH_CHANNEL", "-1003042522134").split()))  # Allowed channels for authorization
+AUTH_CHANNEL = list(map(int, environ.get("AUTH_CHANNEL", "-1002413032052").split()))  # Allowed channels for authorization
 
 # username add without @
 OWNER_USERNAME = environ.get("OWNER_USERNAME", 'sheetu479')  # Owner's username
 BOT_USERNAME = environ.get("BOT_USERNAME", 'Filetolinkstreamerbot')  # Bot's username
 
 # 🔗 Channel & Support Links
-CHANNEL = environ.get('CHANNEL', 'https://t.me/AV_BOTz_UPDATE')  # Updates channel
-SUPPORT = environ.get('SUPPORT', 'https://t.me/AV_SUPPORT_GROUP')  # Support group
+CHANNEL = environ.get('CHANNEL', 'https://t.me/rajputservermusic')  # Updates channel
+SUPPORT = environ.get('SUPPORT', 'https://t.me/rajputserver')  # Support group
 HOW_TO_VERIFY = environ.get('HOW_TO_VERIFY', 'https://t.me/')  # Verification guide link
 HOW_TO_OPEN = environ.get('HOW_TO_OPEN', 'https://t.me/')  # File access guide link
 
