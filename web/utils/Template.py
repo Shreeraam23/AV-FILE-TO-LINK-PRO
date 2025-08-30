@@ -1,12 +1,12 @@
 class avbotz_template(object):
-    NAME = "AV BOTz "
+    NAME = "rajput server"
 
     DISCLAIMER = (
         "This website only provides a service to help you play your video online without downloading. "
-        "You can report files or videos that contain issues like copyright infringement, +18 content, violence, etc."
+        "You can report files or videos that contain issues like copyright infringement, +18 content not allowed, violence, etc."
     )
 
-    REPORT_LINK = "https://t.me/AV_SUPPORT_GROUP"
+    REPORT_LINK = "https://t.me/Pre_contact_bot"
 
     COLOURS = {
         "header": {"background": "#48cffe", "color": "#ffffff"},
