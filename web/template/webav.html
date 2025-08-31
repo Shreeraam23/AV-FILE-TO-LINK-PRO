@@ -22,6 +22,9 @@
     .theme-toggle-btn {
       cursor: pointer;
       transition: all 0.3s ease;
+      padding: 4px 10px;
+      font-size: 14px;
+      border-radius: 6px;
     }
 
     /* --- Enhanced Button Styles --- */
@@ -128,7 +131,7 @@
       <div class="d-flex justify-content-between align-items-center container">
         <h1 class="h4 mb-0 fw-bold">{{template_ne}}</h1>
         <button id="theme-toggle-btn" class="btn btn-light theme-toggle-btn">
-          <i class="fa-solid fa-sun"></i> Light Mode
+          <i class="fa-solid fa-sun"></i>
         </button>
       </div>
     </header>
@@ -145,20 +148,11 @@
         </video>
       </div>
 
-      <!-- Player Buttons with Logos -->
+      <!-- Player Buttons (logos removed) -->
       <div class="d-flex justify-content-between mb-2 flex-wrap gap-2">
-        <a onclick="mx_player()" class="btn btn-primary flex-fill">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/MX_Player_logo.png" width="22" class="me-2">
-          <b>MX Player</b>
-        </a>
-        <a onclick="vlc_player()" class="btn btn-primary flex-fill">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/VLC_Icon.png" width="22" class="me-2">
-          <b>VLC Player</b>
-        </a>
-        <a onclick="playit_player()" class="btn btn-primary flex-fill">
-          <img src="https://play-lh.googleusercontent.com/VzE7wsBhb1k7JdW8IeiB6l7_zQElT6y5-kQZnIcXtNCmieYwgd0CQpZK0s8AjtKqKw=w240-h480-rw" width="22" class="me-2">
-          <b>Play it</b>
-        </a>
+        <a onclick="mx_player()" class="btn btn-primary flex-fill"><b>MX Player</b></a>
+        <a onclick="vlc_player()" class="btn btn-primary flex-fill"><b>VLC Player</b></a>
+        <a onclick="playit_player()" class="btn btn-primary flex-fill"><b>Play it</b></a>
       </div>
 
       <div class="d-grid gap-2 mb-2">
@@ -222,11 +216,6 @@
       });
     });
 
-    // Report modal
-    function closeLinkModal() {
-      document.getElementById("link-modal").style.display = "none";
-    }
-
     // Share
     function shareButton() {
       if (navigator.share) {
@@ -234,31 +223,13 @@
         const title = document.title;
         navigator.share({
           title: title,
-          text: "You can watch high-quality videos on this Stream page, one of the most powerful streaming platforms.\n\n" + title + "\n",
+          text: "You can watch high-quality videos on this Stream page.\n\n" + title + "\n",
           url: url
         }).then(() => console.log("Thanks for sharing!"))
         .catch(e => console.log(`Couldn't share because of ${e.message}`));
       } else {
-        alert("Sorry, sharing isn't supported in this browser. Try Google Chrome or copy the link manually.");
+        alert("Sorry, sharing isn't supported in this browser.");
       }
-    }
-
-    // Ads link timer
-    function showAdsLinkModal(url) {
-      const modal = document.getElementById("link-modal");
-      const timerEl = document.getElementById("link-timer");
-      modal.style.display = "block";
-      let timeLeft = 5;
-      const countdown = setInterval(() => {
-        timeLeft--;
-        timerEl.innerHTML = timeLeft;
-        if (timeLeft === 0) {
-          clearInterval(countdown);
-          timerEl.innerHTML = "";
-          window.location.href = url;
-          closeLinkModal();
-        }
-      }, 1000);
     }
 
     // External players + download
@@ -288,12 +259,12 @@
       if (mode === "light") {
         document.body.classList.remove("bg-dark", "text-light");
         document.body.classList.add("bg-light", "text-dark");
-        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         themeBtn.classList.replace("btn-light", "btn-dark");
       } else {
         document.body.classList.remove("bg-light", "text-dark");
         document.body.classList.add("bg-dark", "text-light");
-        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
         themeBtn.classList.replace("btn-dark", "btn-light");
       }
     }
@@ -304,7 +275,7 @@
     });
     applyTheme(theme);
 
-    // Footer animation (Made with Aman Developer)
+    // Footer animation
     document.addEventListener("DOMContentLoaded", () => {
       const style = document.createElement("style");
       style.innerHTML = `
