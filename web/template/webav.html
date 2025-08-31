@@ -8,13 +8,12 @@
   <meta name="description" content="Stream high-quality videos and movies in 1080p. Experience seamless playback with multiple player options." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- External CSS Libraries -->
+  <!-- External CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Internal CSS -->
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -25,15 +24,51 @@
       transition: all 0.3s ease;
     }
 
+    /* --- Enhanced Button Styles --- */
     .btn {
-      border-radius: 8px;
-      padding: 10px 20px;
-      transition: all 0.3s ease;
+      border-radius: 10px;
+      padding: 14px 24px;
+      transition: all 0.3s ease-in-out;
+      border: none !important;
+      font-weight: 600;
+      color: white !important;
+      text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 14px 24px -6px rgba(0, 0, 0, 0.4),
+                  0 8px 12px -4px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Player Buttons Specific Gradients */
+    a[onclick="mx_player()"] {
+      background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%) !important;
+    }
+    a[onclick="vlc_player()"] {
+      background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%) !important;
+    }
+    a[onclick="playit_player()"] {
+      background: linear-gradient(135deg, #ff8008 0%, #ffc837 100%) !important;
+    }
+
+    /* Download Button */
+    .btn-success {
+      background: linear-gradient(135deg, #1d976c 0%, #93f9b9 100%) !important;
+    }
+
+    /* Create Link Button */
+    .btn-warning {
+      background: linear-gradient(135deg, #f7b733 0%, #fc4a1a 100%) !important;
+    }
+
+    /* Share Button */
+    .btn-danger {
+      background: linear-gradient(135deg, #d31027 0%, #ea384d 100%) !important;
     }
 
     .player-wrapper {
@@ -56,21 +91,26 @@
       text-decoration: underline;
     }
 
+    /* Enhanced Report Button */
     .report {
-      background-color: red;
+      background: linear-gradient(45deg, #c0392b 0%, #e74c3c 100%) !important;
       color: white;
       border: none;
       cursor: pointer;
       font-size: 16px;
       padding: 10px 20px;
       border-radius: 5px;
-      transition: background-color 0.3s;
+      transition: all 0.3s ease-in-out;
       text-decoration: none;
       display: inline-block;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+      font-weight: 500;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .report:hover {
-      background-color: darkred;
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.25), 0 6px 8px -3px rgba(0, 0, 0, 0.15);
     }
 
     .button-container {
@@ -84,8 +124,7 @@
 <body class="bg-dark text-light">
   <div class="d-flex flex-column min-vh-100">
     <!-- Header -->
-    <header class="bg-primary text-white py-2 shadow"
-      style="background-color: {{ colours.header.background }} !important; color: {{ colours.header.color }} !important;">
+    <header class="bg-primary text-white py-2 shadow" style="background-color: {{ colours.header.background }} !important; color: {{ colours.header.color }} !important;">
       <div class="d-flex justify-content-between align-items-center container">
         <h1 class="h4 mb-0 fw-bold">{{template_ne}}</h1>
         <button id="theme-toggle-btn" class="btn btn-light theme-toggle-btn">
@@ -97,48 +136,48 @@
     <!-- Main content -->
     <main class="flex-grow-1 container py-3">
       <div class="player-wrapper mb-3">
-        <video id="myVideo" src="{{file_url}}" class="w-100" controls>
+        <video id="myVideo" class="w-100" controls crossorigin playsinline>
+          <source src="{{file_url_1080p}}" type="video/mp4" size="1080">
+          <source src="{{file_url_720p}}" type="video/mp4" size="720">
+          <source src="{{file_url_480p}}" type="video/mp4" size="480">
+          <source src="{{file_url_360p}}" type="video/mp4" size="360">
           Your browser does not support the video tag.
         </video>
-        <script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
       </div>
 
+      <!-- Player Buttons with Logos -->
       <div class="d-flex justify-content-between mb-2 flex-wrap gap-2">
-        <a onclick="mx_player()" class="btn btn-primary flex-fill"
-          style="border: none; background-color: {{ colours.mx_player.background }}; color: {{ colours.mx_player.color }};">
-          <i class="fa fa-play"></i> <b>MX Player</b>
+        <a onclick="mx_player()" class="btn btn-primary flex-fill">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/MX_Player_logo.png" width="22" class="me-2">
+          <b>MX Player</b>
         </a>
-        <a onclick="vlc_player()" class="btn btn-primary flex-fill"
-          style="border: none; background-color: {{ colours.vlc_player.background }}; color: {{ colours.vlc_player.color }};">
-          <i class="fa fa-play"></i> <b>VLC Player</b>
+        <a onclick="vlc_player()" class="btn btn-primary flex-fill">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/VLC_Icon.png" width="22" class="me-2">
+          <b>VLC Player</b>
         </a>
-        <a onclick="playit_player()" class="btn btn-primary flex-fill"
-          style="border: none; background-color: {{ colours.playit_player.background }}; color: {{ colours.playit_player.color }};">
-          <i class="fa fa-play"></i> <b>Play it</b>
+        <a onclick="playit_player()" class="btn btn-primary flex-fill">
+          <img src="https://play-lh.googleusercontent.com/VzE7wsBhb1k7JdW8IeiB6l7_zQElT6y5-kQZnIcXtNCmieYwgd0CQpZK0s8AjtKqKw=w240-h480-rw" width="22" class="me-2">
+          <b>Play it</b>
         </a>
       </div>
 
-      <div class="row g-3 mb-2">
-        <div class="col-md-6">
-          <a onclick="streamDownload()" class="btn btn-success w-100"
-            style="border: none; background-color: {{ colours.download.background }}; color: {{ colours.download.color }};">
-            <i class="fa-solid fa-download me-2"></i> Download
-          </a>
-        </div>
+      <div class="d-grid gap-2 mb-2">
+        <a onclick="streamDownload()" class="btn btn-success w-100">
+          <i class="fa-solid fa-download me-2"></i> Download
+        </a>
+      </div>
+      
+      <div class="d-grid gap-2">
+        <a id="demo4" onclick="showLinkModal('{{tg_button}}')" class="btn btn-warning w-100 mb-2">
+          <i class="fa-brands fa-telegram me-2"></i> Create Like This Link
+        </a>
+
+        <a onclick="shareButton()" class="btn btn-danger w-100 mb-3">
+          <i class="fa fa-share-alt me-2"></i> Share Now
+        </a>
       </div>
 
-      <a id="demo4" onclick="showLinkModal('{{tg_button}}')" class="btn btn-warning w-100 mb-2"
-        style="border: none; background-color: {{ colours.create_link.background }}; color: {{ colours.create_link.color }};">
-        <i class="fa-brands fa-telegram"></i> Create Like This Link
-      </a>
-
-      <a onclick="shareButton()" class="btn btn-danger w-100 mb-3"
-        style="border: none; background-color: {{ colours.share.background }}; color: {{ colours.share.color }};">
-        <i class="fa fa-share-alt"></i> Share Now
-      </a>
-
-      <div class="card bg-dark text-light border-secondary mb-4"
-        style="background-color: {{ colours.file_information.background }}  !important; color: {{ colours.file_information.color }}  !important;">
+      <div class="card bg-dark text-light border-secondary mb-4" style="background-color: {{ colours.file_information.background }}  !important; color: {{ colours.file_information.color }}  !important;">
         <div class="card-header border-secondary">
           <h5 class="mb-0"><i class="fa-solid fa-circle-info me-2"></i> File Information</h5>
         </div>
@@ -152,29 +191,43 @@
         </div>
       </div>
 
-      <div class="alert alert-warning"
-        style="background-color: {{ colours.description.background }}; color: {{ colours.description.color }};">
+      <div class="alert alert-warning" style="background-color: {{ colours.description.background }}; color: {{ colours.description.color }};">
         <h6 class="fw-bold"><i class="fa-solid fa-triangle-exclamation me-2"></i> Disclaimer</h6>
         <p class="mb-0">{{disclaimer}}</p>
         <div class="button-container">
           <a href="{{report_link}}" class="report">Report</a>
         </div>
       </div>
-  </div>
-  </main>
+    </main>
   </div>
 
-  <!-- Internal JS -->
+  <!-- External JS -->
+  <script src="https://cdn.plyr.io/3.6.12/plyr.js"></script>
   <script>
-    function openReport() {
-      document.getElementById("myForm").style.display = "block";
-    }
-    function closeReport() {
-      document.getElementById("myForm").style.display = "none";
-    }
+    // Plyr with quality selector
+    document.addEventListener("DOMContentLoaded", () => {
+      const player = new Plyr("#myVideo", {
+        controls: [
+          "play-large", "rewind", "play", "fast-forward",
+          "progress", "current-time", "duration",
+          "captions", "settings", "pip", "airplay", "fullscreen"
+        ],
+        settings: ["captions", "quality", "speed"],
+        quality: {
+          default: 720,
+          options: [1080, 720, 480, 360],
+          forced: true,
+          onChange: q => console.log("Quality changed:", q)
+        }
+      });
+    });
+
+    // Report modal
     function closeLinkModal() {
       document.getElementById("link-modal").style.display = "none";
     }
+
+    // Share
     function shareButton() {
       if (navigator.share) {
         const url = window.location.href;
@@ -183,13 +236,14 @@
           title: title,
           text: "You can watch high-quality videos on this Stream page, one of the most powerful streaming platforms.\n\n" + title + "\n",
           url: url
-        })
-          .then(() => console.log("Thanks for sharing!"))
-          .catch(e => console.log(`Couldn't share because of ${e.message}`));
+        }).then(() => console.log("Thanks for sharing!"))
+        .catch(e => console.log(`Couldn't share because of ${e.message}`));
       } else {
         alert("Sorry, sharing isn't supported in this browser. Try Google Chrome or copy the link manually.");
       }
     }
+
+    // Ads link timer
     function showAdsLinkModal(url) {
       const modal = document.getElementById("link-modal");
       const timerEl = document.getElementById("link-timer");
@@ -206,50 +260,8 @@
         }
       }, 1000);
     }
-    document.addEventListener("DOMContentLoaded", () => {
-      Plyr.setup("#myVideo", {
-        controls: ["play-large", "rewind", "audio", "play", "fast-forward", "progress", "current-time", "duration", "captions", "settings", "pip", "airplay", "fullscreen"]
-      });
 
-      const themeBtn = document.getElementById("theme-toggle-btn");
-      let theme = localStorage.getItem("theme") || "dark";
-
-      const applyTheme = mode => {
-        if (mode === "light") {
-          document.body.classList.remove("bg-dark", "text-light");
-          document.body.classList.add("bg-light", "text-dark");
-          themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
-          themeBtn.classList.replace("btn-light", "btn-dark");
-        } else {
-          document.body.classList.remove("bg-light", "text-dark");
-          document.body.classList.add("bg-dark", "text-light");
-          themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
-          themeBtn.classList.replace("btn-dark", "btn-light");
-        }
-      };
-
-      themeBtn.addEventListener("click", () => {
-        const current = document.body.classList.contains("bg-dark") ? "light" : "dark";
-        localStorage.setItem("theme", current);
-        applyTheme(current);
-      });
-
-      applyTheme(theme);
-    });
-
-    function Open_Link(url) {
-      if (url) window.open(url, "_blank");
-    }
-    function showLinkModal(url) {
-      window.open(url, "_blank");
-    }
-    function Open_DL(url) {
-      window.location.href = url.replace("replace", "dl");
-    }
-    function Open_TG(url) {
-      window.location.href = url.replace("replace", "tg");
-    }
-
+    // External players + download
     const videolink = window.location.href;
     const streamlink = videolink.replace("/watch/", "/dl/");
 
@@ -269,24 +281,48 @@
       window.location.href = streamlink;
     }
 
+    // Theme toggle
+    const themeBtn = document.getElementById("theme-toggle-btn");
+    let theme = localStorage.getItem("theme") || "dark";
+    function applyTheme(mode) {
+      if (mode === "light") {
+        document.body.classList.remove("bg-dark", "text-light");
+        document.body.classList.add("bg-light", "text-dark");
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
+        themeBtn.classList.replace("btn-light", "btn-dark");
+      } else {
+        document.body.classList.remove("bg-light", "text-dark");
+        document.body.classList.add("bg-dark", "text-light");
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
+        themeBtn.classList.replace("btn-dark", "btn-light");
+      }
+    }
+    themeBtn.addEventListener("click", () => {
+      const current = document.body.classList.contains("bg-dark") ? "light" : "dark";
+      localStorage.setItem("theme", current);
+      applyTheme(current);
+    });
+    applyTheme(theme);
+
+    // Footer animation (Made with Aman Developer)
     document.addEventListener("DOMContentLoaded", () => {
       const style = document.createElement("style");
       style.innerHTML = `
-    @keyframes devBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
-    .dev-icon {
-      display: inline-block;
-      animation: devBounce 1.2s infinite;
-      color: #0dcaf0;
-      margin-left: 6px;
-    }
-    .footer-text {
-      color: #0dcaf0;
-      text-decoration: none;
-    }
-  `;
+        @keyframes devBounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+        .dev-icon {
+          display: inline-block;
+          animation: devBounce 1.2s infinite;
+          color: #0dcaf0;
+          margin-left: 6px;
+        }
+        .footer-text {
+          color: #0dcaf0;
+          text-decoration: none;
+        }
+      `;
       document.head.appendChild(style);
 
       const footer = document.createElement("footer");
@@ -316,5 +352,4 @@
     });
   </script>
 </body>
-
 </html>
